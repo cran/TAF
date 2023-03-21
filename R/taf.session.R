@@ -4,7 +4,8 @@
 #' packages were loaded from the local TAF library.
 #'
 #' @param sort whether to sort packages by name.
-#' @param details whether to include more detailed session information.
+#' @param imports whether to include imported packages.
+#' @param details whether to report more detailed session information.
 #'
 #' @return List containing session information about loaded packages.
 #'
@@ -19,6 +20,7 @@
 #' \donttest{
 #' taf.session()
 #' taf.session(sort=TRUE)
+#' taf.session(imports=FALSE)
 #' taf.session(details=TRUE)
 #' }
 #'
@@ -27,17 +29,17 @@
 #'
 #' @export
 
-taf.session <- function(sort=FALSE, details=FALSE)
+taf.session <- function(sort=FALSE, imports=TRUE, details=FALSE)
 {
-  info <- function(desc)
+  pkg.fields <- c("Package", "Version", "Library", "RemoteSha", "TAF")  # global
+  info <- function(desc, fields=pkg.fields)
   {
     lib <- dirname(find.package(desc$Package))
     desc$Library <- if(lib %in% .libPaths())
                       paste0("[", match(lib, .libPaths()), "]") else "TAF"
     desc$RemoteSha <- if(is.null(desc$RemoteSha))
                         "" else substring(desc$RemoteSha, 1, 7)
-    desc$TAF <- if(basename(dirname(lib)) == "bootstrap") "*" else ""
-    fields <- c("Package", "Version", "Library", "RemoteSha", "TAF")
+    desc$TAF <- if(basename(dirname(lib)) %in% c("boot","bootstrap")) "*" else ""
     if(identical(desc$Priority, "base"))
       setNames(rep(NA_character_, 5), fields)
     else
@@ -48,7 +50,11 @@ taf.session <- function(sort=FALSE, details=FALSE)
 
   version <- R.version$version.string
   date <- Sys.Date()
-  packages <- sapply(c(si$otherPkgs, si$loadedOnly), info)
+  packages <- sapply(si$otherPkgs, info)
+  if(imports)
+    packages <- cbind(packages, sapply(si$loadedOnly, info))
+  if(length(packages) == 0)
+    packages <- matrix(NA, nrow=5, dimnames=list(pkg.fields, "."))
   packages <- packages[,apply(packages, 2, function(x) !all(is.na(x)))]
   packages <- data.frame(t(packages), row.names=NULL)
   if(sort)
@@ -61,7 +67,6 @@ taf.session <- function(sort=FALSE, details=FALSE)
     running <- sessionInfo()$running
     arch <- R.version$arch
     user <- Sys.info()[["user"]]
-    stringsAsFactors <- getOption("stringsAsFactors")
     encoding <- unlist(l10n_info())
     locale <- unlist(strsplit(Sys.getlocale(), ";"))
     locale <- strsplit(locale, "=")

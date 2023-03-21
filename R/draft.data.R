@@ -14,15 +14,15 @@
 #' @param access data access code: \code{"OSPAR"}, \code{"Public"}, or
 #'        \code{"Restricted"}.
 #' @param source where the data are copied/downloaded from. This can be a URL,
-#'        filename, special value \code{"file"}, or special value
+#'        filename, or a special value: \code{"file"}, \code{"folder"}, or
 #'        \code{"script"}.
 #' @param file optional filename to save the draft metadata to a file. The value
-#'        \code{TRUE} can be used as shorthand for \code{"bootstrap/DATA.bib"}.
+#'        \code{TRUE} can be used as shorthand for \code{"boot/DATA.bib"}.
 #' @param append whether to append metadata entries to an existing file.
 #' @param data.files data files to consider. The default is all folders and
-#'        files inside \verb{bootstrap/initial/data}.
+#'        files inside \verb{boot/initial/data}.
 #' @param data.scripts boot data scripts to consider. The default is all
-#'        \verb{*.R} files in the \verb{bootstrap} folder.
+#'        \verb{*.R} files in the \verb{boot} folder.
 #'
 #' @details
 #' Typical usage is to specify \code{originator}, while using the default values
@@ -32,8 +32,8 @@
 #'
 #' The data access codes come from \url{https://vocab.ices.dk/?ref=1435}.
 #'
-#' The special values \verb{source = "file"} and \verb{source = "script"} are
-#' described on the
+#' The special values \verb{source = "file"}, \verb{source = "folder"}, and
+#' \verb{source = "script"} are described on the
 #' \href{https://github.com/ices-taf/doc/wiki/Bib-entries}{TAF Wiki}, along with
 #' other metadata information.
 #'
@@ -45,8 +45,8 @@
 #'
 #' @note
 #' This function is intended to be called from the top directory of a TAF
-#' analysis. It looks for data files inside \verb{bootstrap/initial/data} folder
-#' and data scripts inside \verb{bootstrap}.
+#' analysis. It looks for data files inside \verb{boot/initial/data} folder and
+#' data scripts inside \verb{boot}.
 #'
 #' After creating the initial draft, the user can complete the description of
 #' each data entry inside the \verb{title} field and look into each file to
@@ -79,8 +79,8 @@
 draft.data <- function(originator=NULL, year=format(Sys.time(),"%Y"),
                        title=NULL, period=NULL, access="Public", source=NULL,
                        file="", append=FALSE,
-                       data.files=dir("bootstrap/initial/data"),
-                       data.scripts=dir("bootstrap",pattern="\\.R$"))
+                       data.files=dir(taf.boot.path("initial/data")),
+                       data.scripts=dir(boot.dir(),pattern="\\.R$"))
 {
   ## TAF:::access.vocab is a string vector of allowed 'access' values
   if(!is.character(access) || !all(as.character(access) %in% access.vocab))
@@ -90,11 +90,16 @@ draft.data <- function(originator=NULL, year=format(Sys.time(),"%Y"),
   data.scripts <- file_path_sans_ext(data.scripts)
   entries <- c(data.files, data.scripts)
   if(length(entries) == 0)
-    stop("no data (bootstrap/initial/data/*) ",
-         "or data scripts (bootstrap/*.R) found")
+    stop("no data (boot/initial/data/*) ",
+         "or data scripts (boot/*.R) found")
   if(is.null(source))
+  {
     source <- rep(c("file","script"),
                   c(length(data.files),length(data.scripts)))
+    # Look for data.files that are actually folders
+    folder <- dir.exists(file.path(taf.boot.path("initial/data"), data.files))
+    source[folder] <- "folder"
+  }
 
   ## 1  Assemble metadata
   line1 <- paste0("@Misc{", entries, ",")
@@ -118,7 +123,7 @@ draft.data <- function(originator=NULL, year=format(Sys.time(),"%Y"),
 
   ## 3  Export
   if(identical(file, TRUE))
-    file <- "bootstrap/DATA.bib"
+    file <- file.path(boot.dir(), "DATA.bib")
   if(identical(file, FALSE))
     file <- ""
   ## No write() when file="", to ensure quiet assignment x <- draft.data()

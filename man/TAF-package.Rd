@@ -4,10 +4,21 @@
 \name{TAF-package}
 \alias{TAF-package}
 \alias{TAF}
-\title{Functions to Support the ICES Transparent Assessment Framework}
+\title{Transparent Assessment Framework for Reproducible Research}
 \description{
-Functions to support the ICES Transparent Assessment Framework, to organize
-data, methods, and results used in ICES assessments.
+Functions to organize data, methods, and results used in scientific analyses.
+A TAF analysis consists of four scripts (`data.R`, `model.R`, `output.R`,
+`report.R`) that are run sequentially. Each script starts by reading files
+from a previous step and ends with writing out files for the next step.
+
+Convenience functions are provided to version control the required data and
+software, run analyses, clean residues from previous runs, manage files,
+manipulate tables, and produce figures. With a focus on stability and
+reproducible analyses, TAF is designed to have no package dependencies.
+
+TAF forms a base layer for the
+[icesTAF](https://cran.r-project.org/package=icesTAF) package and other
+scientific applications.
 }
 \details{
 \emph{Initial TAF steps:}
@@ -21,6 +32,7 @@ data, methods, and results used in ICES assessments.
 \emph{Running scripts:}
 \tabular{ll}{
   \code{\link{clean}}      \tab clean TAF directories\cr
+  \code{\link{clean.boot}} \tab clean boot directory\cr
   \code{\link{make}}       \tab run R script if needed\cr
   \code{\link{make.all}}   \tab run all TAF scripts as needed\cr
   \code{\link{make.taf}}   \tab run TAF script if needed\cr
@@ -106,6 +118,8 @@ source.all()
 }
 }
 \references{
+Development site: \url{https://github.com/ices-tools-prod/TAF}.
+
 ICES Transparent Assessment Framework: \url{https://taf.ices.dk}.
 
 To explore example TAF stock assessments, see the introductory

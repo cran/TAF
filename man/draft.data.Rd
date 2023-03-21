@@ -6,8 +6,9 @@
 \usage{
 draft.data(originator = NULL, year = format(Sys.time(), "\%Y"),
   title = NULL, period = NULL, access = "Public", source = NULL,
-  file = "", append = FALSE, data.files = dir("bootstrap/initial/data"),
-  data.scripts = dir("bootstrap", pattern = "\\\\.R$"))
+  file = "", append = FALSE,
+  data.files = dir(taf.boot.path("initial/data")),
+  data.scripts = dir(boot.dir(), pattern = "\\\\.R$"))
 }
 \arguments{
 \item{originator}{who prepared the data, e.g. a working group acronym.}
@@ -27,19 +28,19 @@ suppressed using \code{period = FALSE}.}
 \code{"Restricted"}.}
 
 \item{source}{where the data are copied/downloaded from. This can be a URL,
-filename, special value \code{"file"}, or special value
+filename, or a special value: \code{"file"}, \code{"folder"}, or
 \code{"script"}.}
 
 \item{file}{optional filename to save the draft metadata to a file. The value
-\code{TRUE} can be used as shorthand for \code{"bootstrap/DATA.bib"}.}
+\code{TRUE} can be used as shorthand for \code{"boot/DATA.bib"}.}
 
 \item{append}{whether to append metadata entries to an existing file.}
 
 \item{data.files}{data files to consider. The default is all folders and
-files inside \verb{bootstrap/initial/data}.}
+files inside \verb{boot/initial/data}.}
 
 \item{data.scripts}{boot data scripts to consider. The default is all
-\verb{*.R} files in the \verb{bootstrap} folder.}
+\verb{*.R} files in the \verb{boot} folder.}
 }
 \value{
 Object of class \verb{Bibtex}.
@@ -55,8 +56,8 @@ draft.
 
 The data access codes come from \url{https://vocab.ices.dk/?ref=1435}.
 
-The special values \verb{source = "file"} and \verb{source = "script"} are
-described on the
+The special values \verb{source = "file"}, \verb{source = "folder"}, and
+\verb{source = "script"} are described on the
 \href{https://github.com/ices-taf/doc/wiki/Bib-entries}{TAF Wiki}, along with
 other metadata information.
 
@@ -66,8 +67,8 @@ edit further, without accidentally overwriting an existing metadata file.
 }
 \note{
 This function is intended to be called from the top directory of a TAF
-analysis. It looks for data files inside \verb{bootstrap/initial/data} folder
-and data scripts inside \verb{bootstrap}.
+analysis. It looks for data files inside \verb{boot/initial/data} folder and
+data scripts inside \verb{boot}.
 
 After creating the initial draft, the user can complete the description of
 each data entry inside the \verb{title} field and look into each file to

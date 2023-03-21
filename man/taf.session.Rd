@@ -4,12 +4,14 @@
 \alias{taf.session}
 \title{TAF Session}
 \usage{
-taf.session(sort = FALSE, details = FALSE)
+taf.session(sort = FALSE, imports = TRUE, details = FALSE)
 }
 \arguments{
 \item{sort}{whether to sort packages by name.}
 
-\item{details}{whether to include more detailed session information.}
+\item{imports}{whether to include imported packages.}
+
+\item{details}{whether to report more detailed session information.}
 }
 \value{
 List containing session information about loaded packages.
@@ -22,6 +24,7 @@ packages were loaded from the local TAF library.
 \donttest{
 taf.session()
 taf.session(sort=TRUE)
+taf.session(imports=FALSE)
 taf.session(details=TRUE)
 }
 
