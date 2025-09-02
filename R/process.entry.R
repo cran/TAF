@@ -4,9 +4,10 @@
 #'
 #' @export
 
-## Process bib entry
+# Process bib entry
 
-process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
+process.entry <- function(bib, clean = FALSE, comma.split = TRUE, force = FALSE,
+                          quiet = FALSE) {
   owd <- setwd(boot.dir())
   on.exit(setwd(owd))
 
@@ -15,16 +16,16 @@ process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
     msg("* ", key)
   }
 
-  ## If source contains multiple files then split into vector
-  bib$source <- gsub(" +", "\n", bib$source)  # treat space in source as newline
-  bib$source <- trimws(unlist(strsplit(bib$source, "\\n")))
-  bib$source <- sub(",$", "", bib$source)     # remove trailing comma
-  bib$source <- bib$source[bib$source != ""]  # remove empty strings
+  # If source contains comma-separated files then split into vector
+  if (comma.split) {
+    bib$source <- trimws(unlist(strsplit(bib$source, ",")))
+    bib$source <- bib$source[bib$source != ""]  # remove empty strings
+  }
 
-  ## Check if access matches allowed values
+  # Check if access matches allowed values
   access <- bib$access
   if (!is.null(access)) {
-    ## TAF:::access.vocab is a string vector of allowed 'access' values
+    # TAF:::access.vocab is a string vector of allowed 'access' values
     if (!is.character(access) || !(access %in% access.vocab)) {
       stop(
         "'access' values must be \"",
@@ -33,10 +34,10 @@ process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
     }
   }
 
-  ## Add prefix
+  # Add prefix
   bib$source <- paste0(bib$prefix, bib$source)
 
-  ## Prepare dir, where bib$dir starts as: TRUE, FALSE, string, or NULL
+  # Prepare dir, where bib$dir starts as: TRUE, FALSE, string, or NULL
   bib$dir <- as.logical(bib$dir)  # is now TRUE, FALSE, NA, or logical(0)
   if (identical(bib$dir, NA)) {
     stop("parsing entry '", key, "' - dir should be TRUE or unspecified")
@@ -49,12 +50,12 @@ process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
   }
   mkdir(dir) # target directory
 
-  ## Case 1: Resource on GitHub
+  # Case 1: Resource on GitHub
   if (grepl("@", bib$source[1])) {
     targz <- download.github(bib$source, dir, quiet = quiet)
     if (dir == "software") {
       spec <- parse.repo(bib$source[1])
-      ## is.r.package was already called in download.github, so don't warn again
+      # is.r.package was already called in download.github, so don't warn again
       if (is.r.package(file.path("software", targz),
                        spec = spec, warn = FALSE)) {
         taf.install(file.path("software", targz), lib = "library",
@@ -63,7 +64,7 @@ process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
     }
   }
 
-  ## Case 2: File to download
+  # Case 2: File to download
   else if (grepl("^http://", bib$source[1]) ||
            grepl("^https://", bib$source[1]) ||
            grepl("^ftp://", bib$source[1])) {
@@ -84,7 +85,7 @@ process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
     }
   }
 
-  ## Case 3: R script in boot directory
+  # Case 3: R script in boot directory
   else if (bib$source[1] == "script") {
     script <- file_path_as_absolute(paste0(key, ".R"))
     if (clean) {
@@ -93,7 +94,7 @@ process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
     }
     setwd(dir)
     if (length(dir(recursive = TRUE)) == 0 || isTRUE(force)) {
-      ## No destination files exist yet, or force == TRUE
+      # No destination files exist yet, or force == TRUE
       source(script)
     }
     else if (!quiet) {
@@ -104,9 +105,9 @@ process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
     }
   }
 
-  ## Case 4: File to copy
+  # Case 4: File to copy
   else {
-    ## Warn if entry looks like GitHub without a @reference
+    # Warn if entry looks like GitHub without a @reference
     if (!file.exists(bib$source) &&         # file does not exist
         grepl("/", bib$source) &&           # source entry includes /
         !grepl("^\\.", bib$source) &&       # does not start with .
@@ -118,7 +119,7 @@ process.entry <- function(bib, quiet = FALSE, force = FALSE, clean = FALSE) {
         "' entry might be a GitHub reference that is missing the '@'"
       )
     }
-    ## Shorthand notation: source = {file} means key is a filename
+    # Shorthand notation: source = {file} means key is a filename
     if (bib$source[1] %in% c("file", "folder")) {
       bib$source[1] <- file.path("initial", dir, key)
     }

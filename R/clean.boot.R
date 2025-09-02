@@ -16,6 +16,9 @@
 #' scripts, and \verb{*.bib} metadata files from being accidentally deleted.
 #'
 #' @seealso
+#' \code{\link{clean}} cleans TAF directories: \verb{data}, \verb{model},
+#' \verb{output}, and \verb{report}.
+#'
 #' \code{\link{clean.data}} selectively removes data from \verb{boot/data}.
 #'
 #' \code{\link{clean.library}} selectively removes packages from
@@ -36,7 +39,7 @@
 
 clean.boot <- function(force=FALSE)
 {
-  ## An odd directory called 'library:' can appear in Linux
+  # An odd directory called 'library:' can appear in Linux
   unlink(file.path(boot.dir(),"library:"), recursive=TRUE)
 
   clean.data(file.path(boot.dir(),"data"), force=force)

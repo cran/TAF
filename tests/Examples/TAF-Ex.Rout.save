@@ -1,7 +1,7 @@
 
-R version 4.2.2 (2022-10-31 ucrt) -- "Innocent and Trusting"
-Copyright (C) 2022 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -20,7 +20,6 @@ Type 'q()' to quit R.
 > pkgname <- "TAF"
 > source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
-> options(pager = "console")
 > library('TAF')
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
@@ -38,6 +37,8 @@ Type 'q()' to quit R.
 > ### ** Examples
 > 
 > ## Not run: 
+> ##D taf.example("linreg")
+> ##D setwd("linreg")
 > ##D taf.boot()
 > ##D source.all()
 > ## End(Not run)
@@ -173,6 +174,65 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
+> nameEx("catage.wide")
+> ### * catage.wide
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: catage.wide
+> ### Title: Catch at Age in Wide Format
+> ### Aliases: catage.wide
+> 
+> ### ** Examples
+> 
+> catage.wide
+  Area Year       1       2      3      4
+1    1 1963  19.347  62.280  7.028  3.519
+2    1 1964  13.052  28.541 20.118  4.285
+3    1 1965 113.655  58.227 17.646  9.135
+4    1 1966 126.508  84.327 29.766  6.153
+5    2 1963  38.694 124.560 14.056  7.038
+6    2 1964  26.104  57.082 40.236  8.570
+7    2 1965 227.310 116.454 35.292 18.270
+8    2 1966 253.016 168.654 59.532 12.306
+> wide2long(catage.wide)
+   Area Year Age   Value
+1     1 1963   1  19.347
+2     1 1964   1  13.052
+3     1 1965   1 113.655
+4     1 1966   1 126.508
+5     2 1963   1  38.694
+6     2 1964   1  26.104
+7     2 1965   1 227.310
+8     2 1966   1 253.016
+9     1 1963   2  62.280
+10    1 1964   2  28.541
+11    1 1965   2  58.227
+12    1 1966   2  84.327
+13    2 1963   2 124.560
+14    2 1964   2  57.082
+15    2 1965   2 116.454
+16    2 1966   2 168.654
+17    1 1963   3   7.028
+18    1 1964   3  20.118
+19    1 1965   3  17.646
+20    1 1966   3  29.766
+21    2 1963   3  14.056
+22    2 1964   3  40.236
+23    2 1965   3  35.292
+24    2 1966   3  59.532
+25    1 1963   4   3.519
+26    1 1964   4   4.285
+27    1 1965   4   9.135
+28    1 1966   4   6.153
+29    2 1963   4   7.038
+30    2 1964   4   8.570
+31    2 1965   4  18.270
+32    2 1966   4  12.306
+> 
+> 
+> 
+> cleanEx()
 > nameEx("catage.xtab")
 > ### * catage.xtab
 > 
@@ -204,6 +264,26 @@ Type 'q()' to quit R.
 6 1968  36.915 106.373 42.569 12.330
 7 1969   5.434  32.840 31.532 13.641
 8 1970 107.177  42.403 18.547 13.272
+> 
+> 
+> 
+> cleanEx()
+> nameEx("check.software")
+> ### * check.software
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: check.software
+> ### Title: Check SOFTWARE.bib Against Global Packages
+> ### Aliases: check.software
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D check.software()
+> ##D check.software(full=TRUE)
+> ## End(Not run)
+> 
 > 
 > 
 > 
@@ -320,7 +400,7 @@ Type 'q()' to quit R.
 > ##D write(pi, "A B.txt")
 > ##D convert.spaces("A B.txt")
 > ##D 
-> ##D ## Many files
+> ##D # Many files
 > ##D convert.spaces("boot/initial/data/*")
 > ## End(Not run)
 > 
@@ -344,11 +424,42 @@ Type 'q()' to quit R.
 > ##D cp("A.txt", "B.txt")
 > ##D cp("A.txt", "B.txt", move=TRUE)
 > ##D 
-> ##D ## Copy directory tree
+> ##D # Copy directory tree
 > ##D cp(system.file(package="datasets"), ".")
 > ##D mkdir("everything")
 > ##D cp("datasets/*", "everything")
 > ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("ddim")
+> ### * ddim
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: ddim
+> ### Title: Data Dimensions
+> ### Aliases: ddim
+> 
+> ### ** Examples
+> 
+> # Long table format, 8 years and 4 ages
+> ddim(catage.long)
+Year  Age 
+   8    4 
+> 
+> # Some base R datasets
+> ddim(esoph[-5])
+agegp alcgp tobgp 
+    6     4     4 
+> ddim(rev(warpbreaks))
+tension    wool 
+      3       2 
+> ddim(rev(ToothGrowth))
+dose supp 
+   3    2 
 > 
 > 
 > 
@@ -360,7 +471,7 @@ Type 'q()' to quit R.
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: deps
-> ### Title: List Dependencies
+> ### Title: Dependencies of a Workflow
 > ### Aliases: deps
 > 
 > ### ** Examples
@@ -396,6 +507,27 @@ Type 'q()' to quit R.
 > 
 > ## Not run: 
 > ##D detach.packages()
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("dir.tree")
+> ### * dir.tree
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: dir.tree
+> ### Title: Directory Tree
+> ### Aliases: dir.tree
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D path <- system.file("examples", package="TAF")
+> ##D dir.tree(path)
+> ##D cbind(dir(recursive=TRUE, include.dirs=TRUE))
 > ## End(Not run)
 > 
 > 
@@ -530,6 +662,32 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
+> nameEx("draft.readme")
+> ### * draft.readme
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: draft.readme
+> ### Title: Draft Readme
+> ### Aliases: draft.readme
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Print in console
+> ##D draft.readme()
+> ##D 
+> ##D # Export to file
+> ##D draft.readme(file=TRUE)
+> ##D 
+> ##D # Specify title
+> ##D draft.readme("Yellowfin tuna in the western and central Pacific")
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
 > nameEx("draft.software")
 > ### * draft.software
 > 
@@ -645,6 +803,56 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
+> nameEx("git.repo")
+> ### * git.repo
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: git.repo
+> ### Title: Git Repo
+> ### Aliases: git.repo
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D git.repo()
+> ##D git.repo(owner=TRUE)
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("install.deps")
+> ### * install.deps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: install.deps
+> ### Title: Install Dependencies
+> ### Aliases: install.deps
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Download a TAF analysis
+> ##D download(file.path("https://github.com/ices-taf/2019_san.sa.6",
+> ##D                    "archive/refs/heads/master.zip"))
+> ##D unzip("master.zip")
+> ##D setwd("2019_san.sa.6-master")
+> ##D 
+> ##D # List dependencies
+> ##D deps()
+> ##D deps(taf.boot.path())
+> ##D 
+> ##D # Install dependencies that are not already installed
+> ##D install.deps()
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
 > nameEx("is.r.package")
 > ### * is.r.package
 > 
@@ -724,6 +932,27 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
+> nameEx("linreg")
+> ### * linreg
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: linreg
+> ### Title: Linear Regression
+> ### Aliases: linreg
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D taf.example("linreg")
+> ##D setwd("linreg")
+> ##D taf.boot()
+> ##D source.all()
+> ## End(Not run)
+> 
+> 
+> 
+> cleanEx()
 > nameEx("long2taf")
 > ### * long2taf
 > 
@@ -782,13 +1011,16 @@ Type 'q()' to quit R.
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: make
-> ### Title: Run R Script If Needed
+> ### Title: Run R Script if Needed
 > ### Aliases: make
 > 
 > ### ** Examples
 > 
 > ## Not run: 
+> ##D # Here, model.R uses input.dat, creating results.dat
 > ##D make("model.R", "data/input.dat", "model/results.dat")
+> ##D make("model.R", "data/input.dat", "model/results.dat", quiet=FALSE)
+> ##D make("model.R", "data/input.dat", "model/results.dat", details=TRUE)
 > ## End(Not run)
 > 
 > 
@@ -820,7 +1052,7 @@ Type 'q()' to quit R.
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: make.taf
-> ### Title: Run TAF Script If Needed
+> ### Title: Run TAF Script if Needed
 > ### Aliases: make.taf makeTAF
 > 
 > ### ** Examples
@@ -883,6 +1115,38 @@ Type 'q()' to quit R.
 > 
 > ### ** Examples
 > 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pdeps")
+> ### * pdeps
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pdeps
+> ### Title: Dependencies of a Package
+> ### Aliases: pdeps
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # TAF dependencies
+> ##D pdeps("TAF")                # does not depend on non-base packages
+> ##D pdeps("TAF", base=TRUE)     # depends on these base packages
+> ##D pdeps("TAF", reverse=TRUE)  # icesTAF depends on TAF
+> ##D 
+> ##D # Other packages with light dependencies
+> ##D sapply(pdeps(c("data.table", "Rcpp", "renv")), length)
+> ##D 
+> ##D # ggplot2 dependencies
+> ##D pdeps("ggplot2")                   # full list of dependencies
+> ##D pdeps("ggplot2", recursive=FALSE)  # primary dependencies
+> ##D 
+> ##D # Each ggplot2 dependency brings in these secondary dependencies
+> ##D pdeps(pdeps("ggplot2", recursive=FALSE)$ggplot2)
+> ## End(Not run)
 > 
 > 
 > 
@@ -970,7 +1234,7 @@ Type 'q()' to quit R.
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: read.taf
-> ### Title: Read TAF Table from File
+> ### Title: Read TAF Table
 > ### Aliases: read.taf
 > 
 > ### ** Examples
@@ -1061,14 +1325,14 @@ Type 'q()' to quit R.
 > 
 > ### ** Examples
 > 
-> ## Example objects
+> # Example objects
 > x <- as.matrix(summary.taf[grep("SSB", names(summary.taf))])
 > rec <- as.matrix(summary.taf[grep("Rec", names(summary.taf))])
 > tsb <- as.matrix(summary.taf[grep("TSB", names(summary.taf))])
 > dimnames(x) <- list(summary.taf$Year, c("Estimate", "Low", "High"))
 > dimnames(rec) <- dimnames(tsb) <- dimnames(x)
 > 
-> ## One SAM table, arbitrary object name
+> # One SAM table, arbitrary object name
 > sam2taf(x)
   Year Estimate Estimate_lo Estimate_hi
 1 1963 151903.4    116620.5    197861.0
@@ -1085,7 +1349,7 @@ Type 'q()' to quit R.
 2 163080.6 128014.7 207751.9
 3 199187.1 161241.7 246062.3
 > 
-> ## Many SAM tables, recognized names
+> # Many SAM tables, recognized names
 > sam2taf(rec)
   Year       Rec   Rec_lo    Rec_hi
 1 1963  487477.8 358326.5  663178.9
@@ -1099,7 +1363,7 @@ Type 'q()' to quit R.
 > 
 > ## Not run: 
 > ##D 
-> ##D ## Accessing tables from SAM fit object
+> ##D # Accessing tables from SAM fit object
 > ##D data.frame(sam2taf(rectable(fit)), sam2taf(tsbtable(fit), year=FALSE))
 > ## End(Not run)
 > 
@@ -1286,6 +1550,28 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
+> nameEx("taf.example")
+> ### * taf.example
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: taf.example
+> ### Title: TAF Example
+> ### Aliases: taf.example
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D taf.example("linreg")
+> ##D setwd("linreg")
+> ##D taf.boot()
+> ##D source.all()
+> ## End(Not run)
+> 
+> 
+> 
+> 
+> cleanEx()
 > nameEx("taf.install")
 > ### * taf.install
 > 
@@ -1320,6 +1606,26 @@ Type 'q()' to quit R.
 > 
 > ### ** Examples
 > 
+> 
+> 
+> 
+> 
+> cleanEx()
+> nameEx("taf.libraries")
+> ### * taf.libraries
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: taf.libraries
+> ### Title: TAF Libraries
+> ### Aliases: taf.libraries
+> 
+> ### ** Examples
+> 
+> ## Not run: 
+> ##D # Load all packages in TAF library
+> ##D taf.libraries()
+> ## End(Not run)
 > 
 > 
 > 
@@ -1622,13 +1928,63 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
+> nameEx("wide2long")
+> ### * wide2long
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: wide2long
+> ### Title: Convert Wide Table to Long Format
+> ### Aliases: wide2long
+> 
+> ### ** Examples
+> 
+> wide2long(catage.wide, names=c("Age","Catch"))
+   Area Year Age   Catch
+1     1 1963   1  19.347
+2     1 1964   1  13.052
+3     1 1965   1 113.655
+4     1 1966   1 126.508
+5     2 1963   1  38.694
+6     2 1964   1  26.104
+7     2 1965   1 227.310
+8     2 1966   1 253.016
+9     1 1963   2  62.280
+10    1 1964   2  28.541
+11    1 1965   2  58.227
+12    1 1966   2  84.327
+13    2 1963   2 124.560
+14    2 1964   2  57.082
+15    2 1965   2 116.454
+16    2 1966   2 168.654
+17    1 1963   3   7.028
+18    1 1964   3  20.118
+19    1 1965   3  17.646
+20    1 1966   3  29.766
+21    2 1963   3  14.056
+22    2 1964   3  40.236
+23    2 1965   3  35.292
+24    2 1966   3  59.532
+25    1 1963   4   3.519
+26    1 1964   4   4.285
+27    1 1965   4   9.135
+28    1 1966   4   6.153
+29    2 1963   4   7.038
+30    2 1964   4   8.570
+31    2 1965   4  18.270
+32    2 1966   4  12.306
+> 
+> 
+> 
+> 
+> cleanEx()
 > nameEx("write.taf")
 > ### * write.taf
 > 
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: write.taf
-> ### Title: Write TAF Table to File
+> ### Title: Write TAF Table
 > ### Aliases: write.taf
 > 
 > ### ** Examples
@@ -1761,11 +2117,11 @@ Type 'q()' to quit R.
 > ###
 > cleanEx()
 
-detaching 'package:lattice'
+detaching ‘package:lattice’
 
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.32 0.03 0.36 NA NA 
+Time elapsed:  0.222 0.01 0.23 0 0 
 > grDevices::dev.off()
 null device 
           1 

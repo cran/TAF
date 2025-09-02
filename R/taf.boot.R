@@ -14,6 +14,7 @@
 #'        \code{data}, \code{clean}, and \code{force} to \code{TRUE}, as is done
 #'        on the TAF server. Any other value of \code{taf} is ignored.
 #' @param quiet whether to suppress messages reporting progress.
+#' @param \dots passed to \code{process.entry}.
 #'
 #' @details
 #' If \code{clean = TRUE} then:
@@ -83,7 +84,7 @@
 #' @export
 
 taf.boot <- function(software=TRUE, data=TRUE, clean=TRUE, force=FALSE,
-                     taf=NULL, quiet=FALSE)
+                     taf=NULL, quiet=FALSE, ...)
 {
   if(isTRUE(taf))
     software <- data <- clean <- force <- TRUE
@@ -101,7 +102,7 @@ taf.boot <- function(software=TRUE, data=TRUE, clean=TRUE, force=FALSE,
 
   out <- c(SOFTWARE.bib=FALSE, DATA.bib=FALSE)
 
-  ## 0  Process config
+  # 0  Process config
   if(dir.exists(file.path(boot.dir(), "initial/config")))
   {
     if(clean)
@@ -111,15 +112,16 @@ taf.boot <- function(software=TRUE, data=TRUE, clean=TRUE, force=FALSE,
     cp(file.path(boot.dir(), "initial/config"), ".")
   }
 
-  ## 1  Process software
+  # 1  Process software
   if(software && file.exists(file.path(boot.dir(), "SOFTWARE.bib")))
-    out["SOFTWARE.bib"] <- process.bibfile("software", clean=clean, quiet=quiet)
+    out["SOFTWARE.bib"] <-
+      process.bibfile("software", clean=clean, quiet=quiet, ...)
 
-  ## 2  Process data
+  # 2  Process data
   if(data && file.exists(file.path(boot.dir(), "DATA.bib")))
-    out["DATA.bib"] <- process.bibfile("data", clean=clean, quiet=quiet)
+    out["DATA.bib"] <- process.bibfile("data", clean=clean, quiet=quiet, ...)
 
-  ## Remove empty folders
+  # Remove empty folders
   rmdir(file.path(boot.dir(), c("data", "library", "software")), recursive=TRUE)
   rmdir(file.path(boot.dir(), "library:"), recursive=TRUE)  # sometimes in Linux
 
@@ -131,7 +133,7 @@ taf.boot <- function(software=TRUE, data=TRUE, clean=TRUE, force=FALSE,
 
 #' @export
 
-## Equivalent spelling
+# Equivalent spelling
 
 taf.bootstrap <- function(...)
 {

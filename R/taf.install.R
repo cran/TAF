@@ -55,7 +55,7 @@
 #'
 #' @export
 
-taf.install <- function(targz=NULL, lib="boot/library", quiet=FALSE)
+taf.install <- function(targz=NULL, lib=taf.boot.path("library"), quiet=FALSE)
 {
   if(is.null(targz))
     targz <- dir(file.path(boot.dir(), "software"),
@@ -70,7 +70,7 @@ taf.install <- function(targz=NULL, lib="boot/library", quiet=FALSE)
 
     if(!already.in.taf.library(tgz, lib))
     {
-      install.packages(tgz, lib=lib, repos=NULL, quiet=quiet)
+      install.packages(tgz, lib=lib, repos=NULL, type="source", quiet=quiet)
     }
     else if(!quiet)
     {
@@ -85,7 +85,7 @@ taf.install <- function(targz=NULL, lib="boot/library", quiet=FALSE)
 #'
 #' @export
 
-## Check whether requested package is already installed in the TAF library
+# Check whether requested package is already installed in the TAF library
 
 already.in.taf.library <- function(targz, lib)
 {

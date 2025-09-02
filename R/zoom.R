@@ -29,13 +29,13 @@
 #' The default values result in lattice plots that have similar text size as
 #' base plots, when using \code{taf.png}.
 #'
-#' This function ends with a \code{\link[=print.trellis]{print}} call, to make
-#' it easy to export the lattice plot to a file, without the need of an explicit
-#' \code{print}.
+#' This function ends with a \code{\link[lattice:print.trellis]{print}} call, to
+#' make it easy to export the lattice plot to a file, without the need of an
+#' explicit \code{print}.
 #'
 #' @seealso
-#' \code{\link{Lattice}} plots are created using \code{\link{xyplot}} or related
-#' functions.
+#' \code{\link[lattice]{Lattice}} plots are created using
+#' \code{\link[lattice]{xyplot}} or related functions.
 #'
 #' \code{\link{taf.png}} opens a PNG graphics device.
 #'
@@ -95,7 +95,7 @@ zoom.trellis <- function(x, size=1, main=1.2*size, lab=size, axis=size,
     {
       side <- names(x$legend)[1]
       x$legend[[side]]$args$key$cex.title <- legend
-      ## Sometimes cex, key$cex, or key$text$cex ... just set them all
+      # Sometimes cex, key$cex, or key$text$cex ... just set them all
       x$legend[[side]]$args$cex <- legend
       x$legend[[side]]$args$key$cex <- legend
       x$legend[[side]]$args$key$text$cex <- legend

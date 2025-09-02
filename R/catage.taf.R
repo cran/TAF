@@ -39,6 +39,8 @@
 #' \code{\link{taf2long}} and \code{\link{taf2xtab}} convert a TAF table to
 #' alternative formats.
 #'
+#' \code{\link{wide2long}} converts a wide table to long format.
+#'
 #' \code{\link{TAF-package}} gives an overview of the package.
 #'
 #'

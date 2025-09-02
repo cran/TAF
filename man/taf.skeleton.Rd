@@ -4,8 +4,8 @@
 \alias{taf.skeleton}
 \title{TAF Skeleton}
 \usage{
-taf.skeleton(path = ".", force = FALSE, pkgs = "TAF",
-  model.script = "model.R")
+taf.skeleton(path = ".", force = FALSE, pkgs = taf.pkg(),
+  model.script = "model.R", gitignore = TRUE)
 }
 \arguments{
 \item{path}{where to create initial directories and R scripts. The default is
@@ -13,17 +13,47 @@ the current working directory.}
 
 \item{force}{whether to overwrite existing scripts.}
 
-\item{pkgs}{packages to load at the start of each script. The default is the
-TAF package, i.e. \code{library(TAF)}.}
+\item{pkgs}{packages to load at the start of each script. The default is
+either \code{"TAF"} (if the icesTAF package is not attached) or
+\code{"icesTAF"} (if icesTAF is attached).}
 
 \item{model.script}{model script filename, either \code{model.R} (default) or
 \code{method.R}.}
+
+\item{gitignore}{whether to write TAF entries to a \file{.gitignore} file.}
 }
 \value{
 Full path to analysis directory.
 }
 \description{
 Create initial directories and R scripts for a new TAF analysis.
+}
+\details{
+When \code{gitignore = TRUE}, the following entries will be written to a
+\verb{.gitignore} file, appending if the file exists already:
+\preformatted{
+/boot/data
+/boot/library
+/boot/software
+/data
+/model
+/output
+/report
+*.Rproj
+.RData
+.Rhistory
+.Rproj.user
+.Ruserdata
+}
+}
+\note{
+After running \code{taf.skeleton()} to create a new TAF workflow, the author
+can populate the \code{boot/initial/data} folder with initial data files and
+run \code{draft.data(file=TRUE)} to produce a \code{DATA.bib} file.
+
+The next step is then to run \code{taf.boot()} to populate the
+\code{boot/data} folder and start editing the \code{data.R} script, reading
+files from the \code{boot/data} folder.
 }
 \examples{
 \dontrun{
@@ -32,6 +62,8 @@ taf.skeleton()
 
 }
 \seealso{
+\code{\link{taf.example}} copies an example analysis from the TAF package.
+
 \code{\link{package.skeleton}} creates an empty template for a new R package.
 
 \code{\link{TAF-package}} gives an overview of the package.

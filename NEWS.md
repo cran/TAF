@@ -1,3 +1,51 @@
+# TAF 4.3.0 (2025-09-02)
+
+* Added function check.software() to check global package versions - an
+  administrative tool for special cases. Code contributed by Iago Mosqueira.
+
+* Added function ddim() to show the data dimensions of a table.
+
+* Added function dir.tree() to show directory structure and files.
+
+* Added function draft.readme() to draft an introductory README.md.
+
+* Added function git.repo() to read a Git repository name.
+
+* Added function install.deps() to install all dependencies of a TAF analysis.
+
+* Added function pdeps() to analyze the dependencies of a CRAN package.
+
+* Added function taf.example() to copy an example analysis from the TAF package.
+
+* Added function taf.libraries() to load all packages from TAF library. Code
+  contributed by Iago Mosqueira.
+
+* Added function wide2long() to convert from wide to long table format.
+
+* Added argument 'force' to dos2unix() and unix2dos().
+
+* Added argument 'quiet' to make(). Renamed argument 'debug' to 'details'.
+
+* Added argument 'gitignore' to taf.skeleton().
+
+* Added example data frame catage.wide to demonstrate a wide table format.
+
+* Added 'linreg' example, a minimal TAF workflow.
+
+* Improved draft.software() so it supports packages from r-universe. Code
+  contributed by Iago Mosqueira.
+
+* Improved taf.boot() so it is not affected by getOption("pkgType"). Changed
+  taf.boot() so it handles multiple filenames/URLs in 'source' field, separated
+  by comma. Handled by internal function process.entry().
+
+* Changed taf.skeleton() so it sets 'pkgs' to either "TAF" or "icesTAF",
+  depending on whether the icesTAF package is attached. The header comments
+  produced by taf.skeletion() have also been simplified.
+
+
+
+
 # TAF 4.2.0 (2023-03-20)
 
 * The term 'boot' is now preferred for what used to be called 'bootstrap',
@@ -15,10 +63,12 @@
 
 * Added argument 'model.script' to taf.skeleton().
 
-* Improved taf.library() to ensure it returns to the previous working directory.
-  Code contributed by Alexandros Kokkalis.
+* Improved draft.data() so it returns source = {folder} for folders.
 
 * Improved taf.boot() so it returns a logical vector, as documented.
+
+* Improved taf.library() to ensure it returns to the previous working directory.
+  Code contributed by Alexandros Kokkalis.
 
 * Fixed a taf.boot() bug introduced in 4.1.0, checking GitHub references.
 
