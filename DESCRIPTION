@@ -1,6 +1,6 @@
 Package: TAF
-Version: 4.3.0
-Date: 2025-09-02
+Version: 4.3.1
+Date: 2025-09-18
 Title: Transparent Assessment Framework for Reproducible Research
 Authors@R: c(person("Arni", "Magnusson", role=c("aut","cre"), email="thisisarni@gmail.com"),
              person("Colin", "Millar", role="aut"),
@@ -23,9 +23,9 @@ Description: General framework to organize data, methods, and results used in
 License: GPL-3
 URL: https://github.com/ices-tools-prod/TAF
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 NeedsCompilation: no
-Packaged: 2025-09-02 06:15:24 UTC; arnim
+Packaged: 2025-09-18 10:21:02 UTC; arnim
 Author: Arni Magnusson [aut, cre],
   Colin Millar [aut],
   Iago Mosqueira [aut],
@@ -34,4 +34,4 @@ Author: Arni Magnusson [aut, cre],
   Hjalte Parner [ctb]
 Maintainer: Arni Magnusson <thisisarni@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-09-02 08:50:07 UTC
+Date/Publication: 2025-09-18 12:50:21 UTC
